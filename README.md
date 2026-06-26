@@ -208,6 +208,19 @@ agentic-ai-system/
 
 ---
 
+## Explanation Video
+
+A full walkthrough demo of the system is available on Google Drive:
+
+[**Watch the explanation video**](https://drive.google.com/file/d/1mRqAN6DuOnREG9hhsnuQTdl_Yj_tQctf/view?usp=sharing)
+
+The video demonstrates:
+- A live run with a complex multi-step request
+- Streaming partial output as the pipeline executes
+- A deliberate failure case (all retrievals forced to fail) showing graceful degradation
+
+---
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

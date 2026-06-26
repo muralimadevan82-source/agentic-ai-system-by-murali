@@ -38,8 +38,8 @@ Every line is plain Python you can step through in a debugger.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/agentic-ai-system.git
-cd agentic-ai-system
+git clone https://github.com/muralimadevan82-source/agentic-ai-system-by-murali.git
+cd agentic-ai-system-by-murali
 
 # No pip install needed to RUN — Python standard library only.
 

@@ -1,0 +1,15 @@
+# This project intentionally has ZERO third-party dependencies.
+# Everything is built using Python's standard library (asyncio, logging,
+# dataclasses, enum, abc, re) so it can run anywhere with no install step
+# beyond Python 3.10+ itself.
+#
+# If you later swap simulated retrieval for a real API (see the
+# EXTENSION POINT comment in agents/retriever_agent.py), you would add
+# something like:
+#   httpx>=0.27
+#   openai>=1.0
+#   anthropic>=0.30
+
+# Dev/test-only dependencies (NOT required to run main.py):
+pytest>=8.0
+pytest-asyncio>=0.23

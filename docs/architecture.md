@@ -15,8 +15,9 @@
                               │  splits request into   │
                               │  ordered Step objects   │
                               └──────────┬────────────┘
-                                         │  plan = [retrieve_1, retrieve_2,
-                                         │          retrieve_3, analyze_1, write_1]
+                               │  plan = [retrieve_1, retrieve_2,
+                               │          retrieve_3, analyze_1,
+                               │          validate_1, write_1]
                                          ▼
                   ┌───────────────────────────────────────────┐
                   │           ORCHESTRATOR (asyncio)             │
@@ -38,14 +39,20 @@
                          │  reads ALL retrieval        │
                          │  results from shared          │
                          │  TaskContext.history            │
-                         │  tolerates partial failures      │
-                         └────────────┬───────────┘
-                                      ▼
-                         ┌────────────────────────┐
-                         │      WriterAgent           │
-                         │  composes final answer,     │
-                         │  degrades gracefully if       │
-                         │  analysis failed                │
+                          │  tolerates partial failures      │
+                          └────────────┬───────────┘
+                                       ▼
+                          ┌────────────────────────┐
+                          │    ValidatorAgent         │
+                          │  quality gate: checks     │
+                          │  confidence thresholds     │
+                          └────────────┬───────────┘
+                                       ▼
+                          ┌────────────────────────┐
+                          │      WriterAgent           │
+                          │  composes final answer,     │
+                          │  degrades gracefully if       │
+                          │  analysis/validation failed     │
                          └────────────┬───────────┘
                                       ▼
                        ┌──────────────────────────┐
@@ -125,4 +132,5 @@ logic into the orchestrator itself.
 | Planner    | Single awaited call                       | Decomposition is one fast, cheap op    |
 | Retriever  | Batched + bounded concurrency (semaphore) | Many similar I/O-bound calls           |
 | Analyzer   | Single awaited call, after ALL retrievals | Needs the full picture to synthesize   |
-| Writer     | Single awaited call, after Analyzer       | Terminal step, nothing after it        |
+| Validator  | Single awaited call, after Analyzer       | Quality gate before writing            |
+| Writer     | Single awaited call, after Validator       | Terminal step, nothing after it        |

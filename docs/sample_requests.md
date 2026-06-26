@@ -21,13 +21,15 @@ retrieve_1: "Find the top 3 AI startups in Bangalore"
 retrieve_2: "compare their funding"
 retrieve_3: "summarize which is the best bet for a fresher"
 analyze_1:  depends on all 3 retrieval steps
-write_1:    depends on analyze_1
+validate_1: depends on analyze_1
+write_1:    depends on validate_1
 ```
 
 **Expected behavior:**
 - All 3 retrieval steps run concurrently in ONE batch (batch size 3).
 - ~20% chance any individual retrieval step hits a simulated transient
   failure and gets automatically retried (visible as a 🔁 event).
+- Validation step checks confidence thresholds and completeness.
 - Final answer lists one bullet point per sub-query plus an aggregate
   confidence percentage.
 
